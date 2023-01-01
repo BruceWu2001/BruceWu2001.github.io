@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech Synthesis</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="upper">
+      <h1>Maybe some navbar here</h1>
+    </div>
+<div class="lower">
+    <div class="profile_pic behind">
+      <img class="profile_picture" src= "{% static 'images/edited_profile_1.png' %}" alt="this will be profile pic"/>
+      <ol id="FAQ">
+        <li src="faq.txt"></li>
+      </ol>
+      <button id="stop" class="yellow_buttons">Stop!</button>
+    </div>
+
+    <div class="voiceinator">
+      <h1>Interview Zi Jian</h1>
+      <select name="voice" id="voices">
+        <option value="">Select A Voice</option>
+      </select>
+      <h2>Your question:</h2>
+      <textarea autofocus=true name="text" class="words">shit</textarea>
+      <div>
+        <button id="record" class="yellow_buttons">Record</button>
+        <button id="ask" class="yellow_buttons">Ask</button>
+      </div>
+    </div>
+</div>
+<script src="{% static 'interview.js' %}" defer></script>
+
+</body>
+</html>
