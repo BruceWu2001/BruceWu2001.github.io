@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'main_page',
     'interview_bot',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,7 +56,7 @@ ROOT_URLCONF = 'general.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'interview_bot/frontend'],
+        'DIRS': [BASE_DIR / 'interview_bot/frontend', BASE_DIR / 'main_page/frontend'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
