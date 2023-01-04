@@ -8,7 +8,6 @@ const recordButton = document.querySelector('#record');
 const askButton = document.querySelector('#ask');
 const stopButton = document.querySelector('#stop');
 const text_area = document.querySelector('[name="text"]');
-// msg.text = document.querySelector('[name="text"]').value; this is the msg tobe spoken
 text_area.value = '';
 
 function populateVoices() {
@@ -31,24 +30,11 @@ function setVoice() {
   toggle();
 }
 
-// select languages...
-speechSynthesis.addEventListener('voiceschanged', populateVoices);
-voicesDropdown.addEventListener('change', setVoice);
 
-
-let messageInput = "";
 function storeMSG() {
-    messageInput = text_area.value;
-    console.log(messageInput);
+  messageInput = text_area.value;
+  // console.log(messageInput);
 }
-
-
-// voice to text (logic)
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
-recognition.continuous = true;
-recognition.interimResults = true;
-recognition.lang = 'en-US';
 
 function record_question(){
     recognition.addEventListener('result', e => {
@@ -67,6 +53,82 @@ function record_question(){
 }
 
 
+function show(){
+  // console.log(this);
+  profile_pic_div.classList.remove('behind')
+  voiceinator.classList.add('behind')
+  display_suggested_qns()
+
+}
+
+function hide(){
+  profile_pic_div.classList.add('behind')
+  voiceinator.classList.remove('behind')
+}
+
+
+async function process_qn() {
+console.log("this is message b4 going in", messageInput)
+await fetch(`process`, {
+    method: 'POST',
+    body : JSON.stringify({
+      "question" : messageInput,
+    })
+})
+.then(response => {
+    result = response.json()
+    status_code = response.status;
+    if(status_code != 200) {
+        console.log('Error in getting brand info!')
+        return false;
+    }
+    
+    return result
+})
+.then(result => {
+    console.log(result.answer);
+    msg.text = result.answer;
+    setTimeout(()=>{
+      toggle(true);
+    },100)
+})
+}
+
+const suggested = document.querySelector("#suggested_qns ol");
+console.log(suggested)
+function display_suggested_qns(){
+
+}
+
+
+
+
+
+
+// logic
+
+
+
+
+
+
+
+
+// select languages...
+speechSynthesis.addEventListener('voiceschanged', populateVoices);
+voicesDropdown.addEventListener('change', setVoice);
+
+
+// voice to text (logic)
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.lang = 'en-US';
+let messageInput = "";
+
+// press to record
+
 let recording = false;
 recordButton.addEventListener('click', () => {
   if(recording){
@@ -79,38 +141,25 @@ recordButton.addEventListener('click', () => {
   record_question()
   recording = !recording;
   console.log(recording)
-    text_area.addEventListener('change', () => {
-      storeMSG()
-  });
 })
 
-
-function show(){
-    console.log(this);
-    profile_pic_div.classList.remove('behind')
-    voiceinator.classList.add('behind')
-
-}
-
-function hide(){
-    profile_pic_div.classList.add('behind')
-    voiceinator.classList.remove('behind')
-}
-
-
+// change background when asked question
 
 const profile_pic_div = document.querySelector(".profile_pic")
-askButton.addEventListener('click', show)
+text_area.addEventListener('change', () => {
+  storeMSG()
+});
+askButton.addEventListener('click', () => {
+  process_qn();
+  show();
+})
+
 stopButton.addEventListener('click', () => {
-  // toggle(false);
+  toggle(false);
   hide();
 })
 
 
-// messageInput will store the message of the questioner
-// 1. create a list of possible questions and answer dictionary
-// const faq = document.querySelector('#FAQ');
-// const data = require('faq.txt')
-// console.log(data)
 
-// 2. analyse input and match output
+
+// https://stackoverflow.com/questions/67188765/using-fetch-with-javascript-and-django

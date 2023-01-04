@@ -1,0 +1,8 @@
+1. map questions to answers (fixed)
+
+
+2. log the questions asked into database by sessions or user or smth
+
+
+
+3. use ai to map qns and answers 

@@ -26,11 +26,23 @@
         <option value="">Select A Voice</option>
       </select>
       <h2>Your question:</h2>
-      <textarea autofocus=true name="text" class="words">shit</textarea>
+      <textarea autofocus=true name="text" class="words"></textarea>
       <div>
-        <button id="record" class="yellow_buttons">Record</button>
-        <button id="ask" class="yellow_buttons">Ask</button>
+        <button id="record" class="yellow_buttons">Record / Stop</button>
+        <!-- <form method="post" action="{% url 'interview:process_question' %}" id="form_0">
+          {% csrf_token %}
+          <input type="hidden" id="theQuestion">
+        </form> -->
+        <button type="submit" id="ask" class="yellow_buttons">Ask</button>
       </div>
+    </div>
+
+    <div id="suggested_qns" class="transparent">
+      <ol>
+        <li>ques</li>
+        <li>questi</li>
+        <li>question</li>
+      </ol>
     </div>
 </div>
 <script src="{% static 'interview.js' %}" defer></script>
